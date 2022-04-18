@@ -30,7 +30,7 @@ runs:
         cache: 'pnpm'
         cache-dependency-path: |
           pnpm-lock.yaml
-          ${{ inputs.use_prisma == 'true' && 'prisma/schema.prisma' }} || ''
+          ${{ (inputs.use_prisma == 'true' && 'prisma/schema.prisma') || '' }}
 
     - name: Install Dependencies
       shell: bash
