@@ -1,0 +1,39 @@
+name: 'pnpm setup'
+description: 'Setup repo and pnpm'
+
+inputs:
+  auth_token:
+    description: "Auth token for github npm"
+    required: true
+  use_prisma:
+    description: "Tell if we need to cache prisma"
+    required: false
+    default: "false"
+  
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+        
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v2.1.0
+      with:
+        version: 6.0.2
+
+    - name: Setup node with cache
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        registry-url: https://npm.pkg.github.com/
+        scope: '@soft-db'
+        cache: 'pnpm'
+        cache-dependecy-path: |
+          pnpm-lock.yaml
+          ${{ inputs.use_prisma == 'true' && 'prisma/schema.prisma' }} || ''
+
+    - name: Install Dependencies
+      shell: bash
+      run: pnpm install
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.auth_token }}
