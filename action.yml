@@ -9,7 +9,7 @@ inputs:
     description: "Tell if we need to cache prisma"
     required: false
     default: "false"
-  
+ 
 
 runs:
   using: "composite"
@@ -39,6 +39,6 @@ runs:
         NODE_AUTH_TOKEN: ${{ inputs.auth_token }}
 
     - name: Generate Prisma
-      if: intputs.use_prisma == 'true'
+      if: inputs.use_prisma == 'true'
       shell: bash
       run: pnpm prisma generate
