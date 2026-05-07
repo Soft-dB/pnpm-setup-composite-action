@@ -25,12 +25,18 @@ runs:
       uses: actions/setup-node@v6
       with:
         node-version: 'lts/*'
-        registry-url: https://npm.pkg.github.com/
-        scope: '@Soft-dB'
         cache: 'pnpm'
         cache-dependency-path: |
           pnpm-lock.yaml
           ${{ (inputs.use_prisma == 'true' && 'prisma/schema.prisma') || '' }}
+
+    - name: Setup registry
+      shell: bash
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.auth_token }}
+      run: |
+        echo "@soft-db:registry=https://npm.pkg.github.com/" >> .npmrc
+        echo "//npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN" >> .npmrc
 
     - name: Install Dependencies
       shell: bash
