@@ -14,15 +14,15 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
         
     - name: Setup pnpm
-      uses: pnpm/action-setup@v2
+      uses: pnpm/action-setup@v6
       with:
         version: 'latest'
 
     - name: Setup node with cache
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v6
       with:
         node-version: 'lts/*'
         registry-url: https://npm.pkg.github.com/
